@@ -12,12 +12,15 @@ body {
 #calculator {
      font-family: Arial, sans-serif;
      background: #1e1e1e;
-     border-radius: 15px;
+     border-radius: 20px;
      max-width: 400px;
-     max-height: 800px;
+     height: 600px;
      overflow: hidden;
      border: 2px solid #000;
      border: none;
+     display: flex;
+     flex-direction: column;
+     box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 
 #display {
@@ -28,32 +31,42 @@ body {
     border: none;
     background-color: hsl(0, 0%, 20%);
     color: white;
+    box-shadow: 0 2px 3px rgba(0,0,0,5);
 }
 
 #keys {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    flex-grow: 1;
     gap: 10px;
     padding: 20px;
 }
 
+#keys button {
+    width: 100%;
+    height: 100%;
+}
+
 button {
     position: relative;
-    border-radius: 50px;
+    border-radius: 40px;
     border: none;
-    background-color: #333;
-    color: white;
-    font-size: 3rem;
+    background: linear-gradient(145deg, #3a3a3a, #2e2e2e);
+    color: hsl(0, 5%, 92%);
+    font-size: 2rem;
     font-weight: bold;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: hsl(1, 0%, 40%);
+    background: linear-gradient(145deg, #4a4a4a, #3b3b3b);
 }
 
 button:active {
-    background-color: hsl(1, 0%, 50%);
+    background: linear-gradient(145deg, #2e2e2e, #1f1f1f);
+    transform: translateY(2px);
+    box-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 
 #eq-btn {
@@ -66,8 +79,12 @@ button:active {
 }
 
 @keyframes flash {
-    0%, 100% { background-color: hsl(1, 0%, 30%); }
-    50% { background-color: red;}
+    0%, 100% {
+        background: linear-gradient(145deg, #3a3a3a, #2e2e2e); /* original gradient */
+    }
+    50% {
+        background: linear-gradient(145deg, #ff4c4c, #ff1a1a); /* red gradient flash */
+    }
 }
 
 .fall {
@@ -79,4 +96,20 @@ button:active {
     transform: translateY(500px) rotate(720deg);
     opacity: 0;
     transition: transform 1s ease-in, opacity 1s ease-in;
+}
+
+/* Undefined Effect */
+.undefined {
+    color: #fff;
+    background: linear-gradient(145deg, #ff4c4c, #ff1a1a);
+    font-weight: bold;
+    text-shadow: 0 0 5px white;
+    animation: shake 0.5s infinite;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
 }

@@ -1,72 +1,85 @@
-// Get the display element
 const display = document.getElementById("display");
+const buttons = document.querySelectorAll("button");
+const originalButtonLabels = Array.from(buttons).map(btn => btn.textContent);
 
-// Append a value (number/operator) to the display
 function appendToDisplay(input) {
     display.value += input;
 }
 
-// Clear the display
 function clearDisplay() {
     display.value = "";
 }
 
-// Calculate the result of the expression
+// --- Calculate function with separate Error & Undefined handling ---
 function calculate() {
+    let expression = display.value;
+    expression = expression.replace(/x/g, "*");  
+    expression = expression.replace(/÷/g, "/");  
+
     try {
-        let expression = display.value;
+        const result = eval(expression);
 
-        // Replace symbols for calculation
-        expression = expression.replace(/×/g, "*");  
-        expression = expression.replace(/÷/g, "/");  
-
-        // Evaluate and show result
-        display.value = eval(expression);
+        // Check for Undefined result
+        if (result === undefined || result === Infinity || isNaN(result)) {
+            handleUndefined();
+        } else {
+            display.value = result;
+        }
     } catch (error) {
-        display.value = "Error";
-
-        flashButtons();
-        setTimeout(fallButtons, 1000);
-
-        //Reset Buttons
-        setTimeout(resetButtons, 3000)
+        handleError();
     }
 }
 
-// Remove the last character from the display
+// --- Handle Undefined --- 
+function handleUndefined() {
+    display.value = "Undefined";
+    buttons.forEach(btn => {
+        btn.textContent = "?";
+        btn.classList.add("undefined"); // add shake effect
+    });
+
+    setTimeout(resetButtons, 2000); // restore after 2s
+}
+
+// --- Handle Error ---
+function handleError() {
+    display.value = "Error";
+
+    flashButtons();
+    setTimeout(fallButtons, 500);
+    setTimeout(resetButtons, 2000);
+}
+
+// --- Backspace ---
 function backspace() {
     display.value = display.value.slice(0, -1);
 }
 
-// --- Button Flash Animation ---
+// --- Flash buttons red ---
 function flashButtons() {
-    const buttons = document.querySelectorAll("button");
     buttons.forEach(btn => {
         btn.classList.add("flash-red");
-        // Remove the class after the animation ends
         btn.addEventListener('animationend', () => {
             btn.classList.remove("flash-red");
         }, { once: true });
     });
 }
 
-// --- Button Fall Animation ---
+// --- Fall buttons off ---
 function fallButtons() {
-    const buttons = document.querySelectorAll("button");
-    buttons.forEach(btn => {
-        btn.classList.add("fall-off");
-    });
+    buttons.forEach(btn => btn.classList.add("fall-off"));
 }
 
-//reset buttons
+// --- Reset buttons to original state ---
 function resetButtons() {
-    const buttons = document.querySelectorAll("button")
-    buttons.forEach(btn => {
-        btn.classList.remove("fall-off")
+    buttons.forEach((btn, index) => {
+        btn.classList.remove("fall-off", "undefined"); // remove undefined effect
         btn.style.transform = "";
         btn.style.opacity = 1;
+
+        // Restore original text
+        btn.textContent = originalButtonLabels[index];
     });
 
-    //Clear Display
     display.value = "";
 }
