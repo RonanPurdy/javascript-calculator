@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #2A7B9B;
+    background: linear-gradient(90deg,rgba(42, 123, 155, 1) 0%, rgba(87, 199, 133, 1) 50%, 
+    rgba(237, 221, 83, 1) 100%);  
+}
+
+#calculator {
+     font-family: Arial, sans-serif;
+     background: #1e1e1e;
+     border-radius: 15px;
+     max-width: 400px;
+     max-height: 800px;
+     overflow: hidden;
+     border: 2px solid #000;
+     border: none;
+}
+
+#display {
+    width: 100%;
+    padding: 20px;
+    font-size: 5rem;
+    text-align: left;
+    border: none;
+    background-color: hsl(0, 0%, 20%);
+    color: white;
+}
+
+#keys {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 20px;
+}
+
+button {
+    position: relative;
+    border-radius: 50px;
+    border: none;
+    background-color: #333;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: hsl(1, 0%, 40%);
+}
+
+button:active {
+    background-color: hsl(1, 0%, 50%);
+}
+
+#eq-btn {
+    grid-row: span 2;
+}
+
+/* make buttons flash red */
+.flash-red {
+    animation : flash 0.3s 3;
+}
+
+@keyframes flash {
+    0%, 100% { background-color: hsl(1, 0%, 30%); }
+    50% { background-color: red;}
+}
+
+.fall {
+    position: relative;
+    transition: transform 1s, opacity 1s;
+}
+
+.fall-off {
+    transform: translateY(500px) rotate(720deg);
+    opacity: 0;
+    transition: transform 1s ease-in, opacity 1s ease-in;
+}
